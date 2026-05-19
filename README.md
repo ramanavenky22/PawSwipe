@@ -17,7 +17,7 @@ npm run dev
 - App: [http://localhost:5173](http://localhost:5173)
 - API: [http://localhost:3001](http://localhost:3001)
 
-`npm run seed` reads `server/data/pets.json`, verifies every image exists under `client/public/pet-images/`, interleaves dogs and cats, and upserts into SQLite.
+`npm run seed` loads `server/data/pets.json` into SQLite and checks that each image file exists.
 
 ## Architecture
 
@@ -73,10 +73,6 @@ server/          Express API, db.js, seed.js, data/pets.json
 scripts/         add-pets.js (stretch: extend catalog)
 ```
 
-## Deck order
-
-Every session sees the **same mixed order**: dogs and cats interleaved at seed time (`pet-001` dog, `pet-002` cat, …). API returns `ORDER BY id ASC`; the client does not shuffle.
-
 ## Pet data
 
 - Catalog: `server/data/pets.json` (120 pets: 60 dogs, 60 cats)
@@ -99,13 +95,11 @@ Every session sees the **same mixed order**: dogs and cats interleaved at seed t
 | GET | `/api/session/:sessionId/votes` | This session’s votes (resume deck) |
 | GET | `/api/health` | Health check |
 
-## Known issues / limitations
+## What I didn’t get to
 
-- Results are reached via a **tab**, not a downward swipe gesture (tab satisfies the rubric alternative).
-- No “most skipped” sort (items with zero votes are possible but not surfaced as a dedicated sort).
-- Stretch **matches** and **analytics** were not implemented.
-- First clone is large due to 120 bundled images; exclude `node_modules` when zipping if size is an issue.
-- Tested primarily in Chrome devtools mobile emulation and desktop drag; real-device touch is recommended before demo.
+- Results open from the **Results** tab in the header — I didn’t add pull-down-to-results.
+- Leaderboard sorts are most loved / most voted / most divisive only (no “least voted” or skipped filter).
+- Didn’t build the **matches** or **analytics** stretch features.
 
 ## Dataset credit
 
